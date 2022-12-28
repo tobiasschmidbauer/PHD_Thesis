@@ -11,7 +11,7 @@ import time
 import datetime
 
 
-basedir = '/home/tobias/master/'
+basedir = '/home/tobias/ntp/'
 configdir = basedir + 'inject_config/'
 interface = 'eth0'
 #ntp_server = '192.168.3.29'
