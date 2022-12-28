@@ -1,0 +1,56 @@
+from scapy.all import *
+import socket
+import sys
+import hashlib
+import logging
+
+
+
+def answer(packet):
+    print("active")
+    hashfile = "start_md5"
+    file = open(hashfile,'r')
+    submitted_hash = ''
+    next_hash = "dummy"
+
+    try:
+        submitted_hash = packet[Raw].load
+        next_hash = hashlib.md5(submitted_hash).hexdigest()
+    except IndexError as error:
+        logging.log(error)
+
+
+
+
+    #if packet[TCP].flags == 'S':
+
+        #print("synack")
+        #send(IP(dst=packet[IP].src) / TCP(sport =42424 ,dport=packet[TCP].sport, seq=packet[TCP].ack, ack=packet[TCP].seq + 1, flags='A'))
+
+    current_hash = file.readline()
+    if next_hash == current_hash:
+        file = open(hashfile,'w')
+
+
+        file.write(submitted_hash.decode("utf-8"))
+        send(IP(dst=packet[IP].src) / TCP(sport =42424 ,dport=packet[TCP].sport, seq=packet[TCP].ack, ack=packet[TCP].seq + 1, flags='A''F'))
+    else:
+        #send(IP(dst=packet[IP].src) / TCP(sport=42424, dport=packet[TCP].sport, seq=packet[TCP].ack, ack=packet[TCP].seq + 1, flags='A''R') )
+
+        #send(IP(dst=packet[IP].src) / TCP(sport=42424, dport=packet[TCP].sport, seq=packet[TCP].ack,
+        #                                  ack=packet[TCP].seq + 1, flags='A''R'))
+        print("wrong hash")
+
+
+
+
+
+def main():
+
+    sniff(filter = 'dst port 42424', prn=answer, iface="eth0")
+
+
+
+
+if __name__ == "__main__":
+    main()

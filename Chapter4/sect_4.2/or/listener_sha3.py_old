@@ -1,0 +1,49 @@
+from netfilterqueue import NetfilterQueue
+from scapy.all import *
+import socket
+import sys
+import hashlib
+import logging
+
+
+
+def print_and_accept(pkt):
+    hashfile = "start_sha3-512"
+    file = open(hashfile,'r')
+    submitted_hash = ''
+    next_hash = "dummy"
+    packet = IP(pkt.get_payload())
+    pkt.drop()
+
+    try:
+        submitted_hash = packet[Raw].load
+        next_hash = hashlib.sha3_512(submitted_hash).hexdigest()
+    except IndexError as error:
+        logging.log(error)
+
+
+
+
+    current_hash = file.readline()
+    if next_hash == current_hash:
+        file = open(hashfile,'w')
+
+
+        file.write(submitted_hash.decode("utf-8"))
+        send(IP(dst=packet[IP].src) / TCP(sport =42424 ,dport=packet[TCP].sport, seq=packet[TCP].ack, ack=packet[TCP].seq + 1, flags='A''P''F'))
+    else:
+        print("wrong hash")
+
+
+
+
+
+if __name__ == '__main__':
+    nfqueue = NetfilterQueue()
+    nfqueue.bind(1, print_and_accept)
+    try:
+        nfqueue.run()
+    except KeyboardInterrupt:
+        print('')
+
+    nfqueue.unbind()

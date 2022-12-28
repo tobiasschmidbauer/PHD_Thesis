@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "listener_sha3.py", line 57, in <module>
+    nfqueue = NetfilterQueue()
+  File "netfilterqueue.pyx", line 162, in netfilterqueue.NetfilterQueue.__cinit__ (netfilterqueue.c:4098)
+OSError: Failed to bind family 2. Are you root?
+Traceback (most recent call last):
+  File "listener_sha3.py", line 57, in <module>
+    nfqueue = NetfilterQueue()
+  File "netfilterqueue.pyx", line 162, in netfilterqueue.NetfilterQueue.__cinit__ (netfilterqueue.c:4098)
+OSError: Failed to bind family 2. Are you root?
+Traceback (most recent call last):
+  File "listener_sha3.py", line 57, in <module>
+    nfqueue = NetfilterQueue()
+  File "netfilterqueue.pyx", line 162, in netfilterqueue.NetfilterQueue.__cinit__ (netfilterqueue.c:4098)
+OSError: Failed to bind family 2. Are you root?
